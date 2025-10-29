@@ -1,14 +1,21 @@
 import dotenv from "dotenv";
 import fs from "fs";
-import latestId from "./utils/latestId.mjs";
 dotenv.config();
-
-latestId();
 
 const database = process.env.DATABASE;
 const apiKey = process.env.API_KEY;
-const baseUrl = "https://api.themoviedb.org/3/tv/"; 
+const baseUrl = "https://api.themoviedb.org/3/tv/";
 const language = 'en-US';
-const total = fs.readFileSync('latestId.json', 'utf8');
+
+let total = "1";
+
+// Try to read the existing latestId.json file
+try {
+	if (fs.existsSync('latestId.json')) {
+		total = fs.readFileSync('latestId.json', 'utf8');
+	}
+} catch (error) {
+	console.error('Error reading latestId.json:', error.message);
+}
 
 export { database, apiKey, baseUrl, language, total };
